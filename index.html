@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>nmとeVの変換サイト</title>
+    <style>
+        body {
+            max-width: 100%;
+            padding: 10px 20px;
+            font-size: 4.26vw;
+            font-family: "MS Pゴシック", sans-serif;
+        }
+        h1 {
+            font-size: 6vw;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+                input[type="number"] {
+            width: 15vw; /* 入力欄の幅を調整 */
+            height: 2em;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 4.26vw; /* 入力欄の文字サイズを調整 */
+            margin-left: 90px;
+        }
+p {
+    margin: 5px 0;
+    line-height: 2em; /* 文字の高さを調整 */
+        }
+        span {
+            font-size:4.26vw;
+            margin-left: 5px;
+        }
+        .calculation-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size:2.7vw;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>mmとGHzの単位変換</h1>
+    <form onsubmit="return false;">
+        <label for="number1">GHz→mm:</label>
+        <input type="number" id="number1" name="number" value="" oninput="divideBy1240('number1')"><span>GHz</span>
+        <p id="result1" class="initial-text">結果: 数字を入力してください。</p>
+    </form>
+
+    <form onsubmit="return false;">
+        <label for="number2">mm→GHz:</label>
+        <input type="number" id="number2" name="number" value="" oninput="divideBy1240('number2')"><span>mm</span>
+        <p id="result2" class="initial-text">結果: 数字を入力してください。</p>
+    </form>
+
+    <p class="calculation-note">動作確認済み機種iPhone14proのみ。</p>
+
+    <script>
+        function divideBy1240(numberId) {
+            var number = document.getElementById(numberId).value;
+            var result = 299.792458/ number;
+            if (!isNaN(result) && isFinite(result)) {
+                result = result.toFixed(4); // 少数第5位を四捨五入し、少数第4位まで表示
+                var additionalText1 = "(mm)";
+                var additionalText2 = "(GHz)";
+                var resultText = "結果: " + result;
+                if (numberId === "number1") {
+                    resultText += additionalText1;
+                } else if (numberId === "number2") {
+                    resultText += additionalText2;
+                }
+                document.getElementById("result" + numberId.slice(-1)).innerHTML = resultText;
+                document.getElementById("result" + numberId.slice(-1)).classList.remove("initial-text");
+            } else {
+                document.getElementById("result" + numberId.slice(-1)).innerHTML = "結果: 入力値が無効です";
+                document.getElementById("result" + numberId.slice(-1)).classList.add("initial-text");
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById("result1").classList.add("initial-text");
+            document.getElementById("result2").classList.add("initial-text");
+        };
+    </script>
+</body>
+</html>
